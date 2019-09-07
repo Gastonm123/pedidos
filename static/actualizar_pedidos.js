@@ -19,27 +19,13 @@ $(function() {
     }
     
     function actualizar() {
-        var data = {
-            'table': 'pedidos', 
-            'condition': 'estado=\'prep\''
-        }
-        $.post("/php/consultar_db.php", data,
-            function (data, textStatus, jqXHR) {
-                agregar_data(data, 0);
-            }
-        );
-    
-    
-        var data = {
-            'table': 'pedidos', 
-            'condition': 'estado=\'listo\''
-        }
-        $.post("/php/consultar_db.php", data,
-            function (data, textStatus, jqXHR) {
-                agregar_data(data, 1);
-            },
-            "json"
-        );
+        $.get(
+            '/php/obtener_pedidos.php', 
+            {},
+            function (data, a, b) {
+                agregar_data(data['prep'],0);
+                agregar_data(data['listo'],1);
+        });
     
         window.setTimeout(actualizar, 2000);
     }
