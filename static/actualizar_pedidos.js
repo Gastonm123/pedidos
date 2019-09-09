@@ -20,7 +20,7 @@ $(function() {
     
     function actualizar() {
         $.get(
-            '/php/obtener_pedidos.php', 
+            '/php/obtenerPedidos.php', 
             {},
             function (data, a, b) {
                 agregar_data(data['prep'],0);

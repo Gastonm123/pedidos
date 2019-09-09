@@ -5,8 +5,7 @@ if (isset($_GET['action'])) {
     if ($_GET['action'] == 'crear') {
         $sql = 'CREATE TABLE IF NOT EXISTS pedidos (
             id INTEGER NOT NULL,
-            descripcion TEXT,
-            estado VARCHAR(10),
+            estado VARCHAR(10) DEFAULT "prep",
             PRIMARY KEY (id)
         )';
     } else if ($_GET['action'] == 'eliminar') {
@@ -20,7 +19,41 @@ if (isset($_GET['action'])) {
     
     if (empty($result)) {
         echo 'Accion fallida';
-        var_dump($result);
+        die;
+    }
+
+    if ($_GET['action'] == 'crear') {
+        $sql = 'CREATE TABLE IF NOT EXISTS combos ( 
+            id INTEGER NOT NULL AUTO_INCREMENT, 
+            producto TEXT NOT NULL, 
+            precio INTEGER NOT NULL, 
+            PRIMARY KEY (id)
+        )';
+    } else if ($_GET['action'] == 'eliminar') {
+        $sql = 'DROP TABLE IF EXISTS combos'; 
+    }
+
+    $result = $conn->query($sql);
+    
+    if (empty($result)) {
+        echo 'Accion fallida';
+        die;
+    }
+
+    if ($_GET['action'] == 'crear') {
+        $sql = 'CREATE TABLE IF NOT EXISTS pedidos_combos (
+            id_pedido INTEGER NOT NULL,
+            id_combo INTEGER NOT NULL,
+            PRIMARY KEY (id_pedido, id_combo)
+        )';
+    } else if ($_GET['action'] == 'eliminar') {
+        $sql = 'DROP TABLE IF EXISTS pedidos_combos'; 
+    }
+
+    $result = $conn->query($sql);
+    
+    if (empty($result)) {
+        echo 'Accion fallida';
         die;
     }
 }
