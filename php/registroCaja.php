@@ -2,17 +2,17 @@
 include "conexion.php";
 
 if (isset($_GET['pedido'])) {
-    $pedido = $_GET['pedido'];
+    $pedido = (int)$_GET['pedido'];
 
-    $sql = "INSERT INTO pedidos (id) VALUES ('$pedido')";
-
-    $result = $conn->query($sql);
-
-    if (!empty($result)) {
-        echo 'Pedido realizado';
-        die;
-    } else {
+    try {
+        $result = $pedidos->insertOne(["nro" => $pedido, "estado" => "prep"]);
+    } catch(Exception $e) {
         echo 'Entrada duplicada';
+        die;
+    }
+
+    if ($result->getInsertedCount() != 0) {
+        echo 'Pedido realizado';
         die;
     }
 }

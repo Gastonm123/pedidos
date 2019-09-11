@@ -8,7 +8,7 @@ $(function() {
         data.forEach(pedido => {
             var node = document.createElement("div");
             node.className = 'orders w3-text-gray';
-            node.innerHTML = pedido['id'];
+            node.innerHTML = pedido['nro'];
 
             if (pos == 1) {
                 node.style.fontSize = '24px';

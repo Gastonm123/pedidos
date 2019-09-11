@@ -1,21 +1,19 @@
 <?php
-include 'conexion.php';
+require 'conexion.php';
 
-$condiciones = ['pend', 'prep', 'listo', 'retirado'];
+$condiciones = ['prep', 'listo', 'retirado'];
 $response = [];
 
 foreach ($condiciones as $condicion) {
-    $sql = 'SELECT * FROM pedidos WHERE estado=\''.$condicion.'\'';
+    $result = $pedidos->find(['estado' => $condicion]);
     
-    $result = $conn->query($sql);
-    
-    if (empty($result)) {
+    if (!isset($result)) {
         echo 'Error desconocido';
         die;
     }
     
     $data = [];
-    while ($row = $result->fetch_assoc()) {
+    foreach ($result as $row) {
         $data[] = $row;
     }
 

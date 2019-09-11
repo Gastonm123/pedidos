@@ -1,9 +1,10 @@
 <?php
-$hostname = 'localhost';
-$username = 'usuario';
-$password = '1234';
-$db = 'pedidos';
+require_once __DIR__.'/../vendor/autoload.php';
 
-$conn = new mysqli($hostname, $username, $password, $db);
+use MongoDB\Client;
+
+$conn = new Client('mongodb://localhost:27017');
+
+$pedidos = $conn->app->pedidos;
 
 ?>

@@ -1,16 +1,14 @@
 <?php
-include 'conexion.php';
+require 'conexion.php';
 
 if (isset($_GET['pedido'])) {
     $estado = $_GET['pedido']['estado'];
-    $id = $_GET['pedido']['nro'];
+    $id = (int)$_GET['pedido']['nro'];
 
-    $sql = "UPDATE pedidos SET estado='$estado' WHERE id='$id'";
-
-    $result = $conn->query($sql);
+    $result = $pedidos->updateOne(["nro" => $id], ["\$set" => ['estado' => $estado]]);
 
     $response = '';
-    if (empty($result)) {
+    if ($result->getModifiedCount() == 0) {
         $response = array('error'=>'Error en la base de datos');
     }
 
@@ -78,7 +76,7 @@ if (isset($_GET['pedido'])) {
 
                 data.forEach(pedido => {
                     var node = document.createElement("div");
-                    node.innerHTML = template_pedido.format(pedido['id']);
+                    node.innerHTML = template_pedido.format(pedido['nro']);
                 
                     object.appendChild(node);
                 });

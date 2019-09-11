@@ -1,6 +1,14 @@
 <?php
 include 'conexion.php';
 
+$pedidos->createIndex(['nro' => 1], ["unique" => true]);
+
+die;
+?>
+
+<?php
+include 'conexion.php';
+
 if (isset($_GET['action'])) {
     if ($_GET['action'] == 'crear') {
         $sql = 'CREATE TABLE IF NOT EXISTS pedidos (
