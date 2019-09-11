@@ -67,7 +67,20 @@ if (isset($_GET['pedido'])) {
         </div>
 
         <script>
-            var template_pedido = "<dl><dt class=\"w3-margin w3-card-4 w3-white\"><h3 class=\"w3-text-grey\" align=\"center\">Pedido {0}</h3><div class=\"w3-container w3-padding\" style=\"display:flex; justify-content: center\"><button style='display:inline-block !important' onclick=\"PedidoListo({0}, 'listo')\" class=\"w3-btn w3-teal\">Listo</button><button style='display:inline-block !important' onclick=\"PedidoListo({0}, 'entregado')\" class=\"w3-btn w3-teal\">Entregado</button></div></dt></dl>";
+            var template_pedido = "\
+            <dl>\
+                <dt class=\"w3-margin w3-card-4 w3-white\">\
+                    <h3 class=\"w3-text-grey\" align=\"center\">Pedido {0}</h3>\
+                    <?php
+                    if ($_GET['view'] == 'interno') {
+                        echo "<div class='w3-container w3-padding' style='display:flex; justify-content: center'> \
+                            <button style='display:inline-block !important' onclick='PedidoListo({0}, \'listo\')' class='w3-btn w3-teal'>Listo</button> \
+                            <button style='display:inline-block !important' onclick='PedidoListo({0}, \'entregado\')' class='w3-btn w3-teal'>Entregado</button> \
+                        </div>";
+                    }
+                    ?>
+                </dt>\
+            </dl>";
 
             function agregar_data (data, object) {                
                 while (object.firstChild) {
