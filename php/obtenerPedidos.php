@@ -1,25 +1,15 @@
 <?php
-include 'conexion.php';
+include 'utils.php';
 
-$condiciones = ['pend', 'prep', 'listo', 'retirado'];
-$response = [];
+$response = [
+	"prep" => [],
+	"listo" => [],
+	"entregado" => []
+];
+$pedidos = leer();
 
-foreach ($condiciones as $condicion) {
-    $sql = 'SELECT * FROM pedidos WHERE estado=\''.$condicion.'\'';
-    
-    $result = $conn->query($sql);
-    
-    if (empty($result)) {
-        echo 'Error desconocido';
-        die;
-    }
-    
-    $data = [];
-    while ($row = $result->fetch_assoc()) {
-        $data[] = $row;
-    }
-
-    $response[$condicion] = $data;
+foreach ($pedidos as $id => $estado) {
+	$response[$estado][] = (int)$id;
 }
 
 header('Content-Type: application/json');

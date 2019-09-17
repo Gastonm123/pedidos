@@ -1,20 +1,10 @@
 <?php
-include "conexion.php";
+include 'utils.php';
 
 if (isset($_GET['pedido'])) {
-    $pedido = $_GET['pedido'];
-
-    $sql = "INSERT INTO pedidos (id) VALUES ('$pedido')";
-
-    $result = $conn->query($sql);
-
-    if (!empty($result)) {
-        echo 'Pedido realizado';
-        die;
-    } else {
-        echo 'Entrada duplicada';
-        die;
-    }
+	escribir($_GET['pedido'], 'prep');
+	echo 'Exito!!';
+	die;
 }
 ?>
 

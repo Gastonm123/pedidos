@@ -1,27 +1,15 @@
 <?php
-include 'conexion.php';
+include 'utils.php';
 
 if (isset($_GET['pedido'])) {
-    $estado = $_GET['pedido']['estado'];
-    $id = $_GET['pedido']['nro'];
-
-    $sql = "UPDATE pedidos SET estado='$estado' WHERE id='$id'";
-
-    $result = $conn->query($sql);
-
-    $response = '';
-    if (empty($result)) {
-        $response = array('error'=>'Error en la base de datos');
-    }
-
-    header('Content-Type: application/json');
-    echo json_encode($response);
-    die;
+	$pedido = $_GET['pedido'];	
+	escribir($pedido['nro'], $pedido['estado']);
+	echo 'Exito!!';
+	die;
 }
 ?>
 <!DOCTYPE html>
 <html>
-
     <head>
         <link rel="stylesheet" href="/css/document.css"/>
         <link rel="stylesheet" href="/css/RegistroCaja.css"/>
@@ -34,7 +22,16 @@ if (isset($_GET['pedido'])) {
 
     <body>
         <script>
-            function PedidoListo(nro, estado) {
+			function PedidoListo(nro) {
+				Pedido(nro, 'listo');
+			}
+
+
+			function PedidoEntregado(nro) {
+				Pedido(nro, 'entregado');
+			}
+	
+            function Pedido(nro, estado) {
                 var data = {
                     'pedido' : {
                         'nro': nro,
@@ -76,8 +73,8 @@ if (isset($_GET['pedido'])) {
                     <?php
                     if ($_GET['view'] == 'interno') {
                         echo "<div class='w3-container w3-padding' style='display:flex; justify-content: center'> \
-                            <button style='display:inline-block !important' onclick='PedidoListo({0}, \'listo\')' class='w3-btn w3-teal'>Listo</button> \
-                            <button style='display:inline-block !important' onclick='PedidoListo({0}, \'entregado\')' class='w3-btn w3-teal'>Entregado</button> \
+                            <button style='display:inline-block !important' onclick='PedidoListo({0})' class='w3-btn w3-teal'>Listo</button> \
+                            <button style='display:inline-block !important' onclick='PedidoEntregado({0})' class='w3-btn w3-teal'>Entregado</button> \
                         </div>";
                     }
                     ?>
@@ -91,7 +88,7 @@ if (isset($_GET['pedido'])) {
 
                 data.forEach(pedido => {
                     var node = document.createElement("div");
-                    node.innerHTML = template_pedido.format(pedido['id']);
+                    node.innerHTML = template_pedido.format(pedido);
                 
                     object.appendChild(node);
                 });
